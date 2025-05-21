@@ -22,7 +22,7 @@ module cifarm::nft_collection_tests {
         let ctx = test_scenario::ctx(&mut scenario);
 
         // Create treasury cap
-        let mut treasury_cap = nft_treasury_cap::create_treasury_cap<OTW>(ctx);
+        let mut treasury_cap = nft_treasury_cap::create_treasury_cap<OTW>(OTW {}, ctx);
 
         // Prepare NFT data
         let name = string::from_ascii(

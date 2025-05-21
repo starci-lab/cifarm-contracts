@@ -1,0 +1,57 @@
+#[allow(unused_field)]
+module cifarm::pomegranate_collection {
+    // ===== Imports =====
+    use cifarm::nft_treasury_cap::{Self};
+    use std::string::{Self};
+    use std::ascii::{Self};
+    use sui::url::{Self, Url};
+    use cifarm::nft_collection::{Self, NFT};
+
+    // ===== Structs =====
+    // One-time witness struct
+    public struct POMEGRANATE_COLLECTION has drop {}
+
+    // ===== Public Functions =====
+    // Minting function
+    // This function is called when the user wants to mint a new NFT
+    // It takes the mint cap, name, uri, traits, recipient and context as parameters
+    fun init(otw: POMEGRANATE_COLLECTION, ctx: &mut TxContext) {
+        // Create collection
+        let (treasury_cap, collection_metadata) = nft_collection::create_collection(
+            otw,
+            string::from_ascii(ascii::string(b"Pomegranate Collection")),
+            url::new_unsafe_from_bytes(b"https://cifarm.sgp1.cdn.digitaloceanspaces.com/1TespPmHeRo5WWGp2z3wMFDKmeVL2SGcB3cCo5y9QS1"),
+            ctx
+        );
+        // make the metadata shared
+        transfer::public_share_object(collection_metadata);
+        // transfer the treasury cap to the user
+        transfer::public_transfer(treasury_cap, ctx.sender());
+    }
+
+    // Update the name of the NFT
+    public fun update_name(
+        self: &mut NFT<POMEGRANATE_COLLECTION>,
+        name: string::String,
+    ) {
+        self.update_name(name);
+    }
+    
+    public fun mint_nft(
+        treasury_cap: &mut nft_treasury_cap::NFTTreasuryCap<POMEGRANATE_COLLECTION>,
+        name: string::String,
+        uri: Url,
+        traits: nft_collection::Traits,
+        recipient: address,
+        ctx: &mut TxContext,
+    ) {
+        nft_collection::mint_nft<POMEGRANATE_COLLECTION>(
+            treasury_cap,
+            name,
+            uri,
+            traits,
+            recipient,
+            ctx
+        );
+    }
+}
