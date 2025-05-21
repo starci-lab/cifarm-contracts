@@ -1,14 +1,12 @@
 #[test_only]
-module cifarm_nft::wrap_ext_kiosik_test {
+module cifarm::wrap_ext_kiosik_tests {
 
     use sui::kiosk;
     use sui::test_scenario;
     use sui::kiosk_test_utils;
     use sui::transfer_policy::{Self};
-    use cifarm_nft::wrap_ext_kiosik;
+    use cifarm::wrap_ext_kiosik;
     use sui::kiosk_extension::{Self};
-    use sui::object::{Self, UID};
-    use sui::package::{Self};
     
     // structs
     // demo struct for testing
@@ -80,7 +78,7 @@ module cifarm_nft::wrap_ext_kiosik_test {
         let (transfer_policy, _policy_cap) = transfer_policy::new<NFT>(&publisher, ctx);
         // Wrap the NFT
         let item = NFT {
-            id: sui::object::new(ctx),
+            id: object::new(ctx),
             growth_acceleration: 200,
             quality_yield: 200,
             disease_resistance: 200,

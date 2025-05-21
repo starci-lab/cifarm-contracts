@@ -1,7 +1,6 @@
 // === Define module ===
-module cifarm_nft::wrap_ext_kiosik {
-
-// === Imports ===
+module cifarm::wrap_ext_kiosik {
+   // === Imports ===
    // use kiosk::kiosk_lock_rule::Rule as LockRule;
    use sui::kiosk::{Kiosk, KioskOwnerCap};
    use sui::kiosk_extension;
