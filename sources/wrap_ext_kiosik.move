@@ -4,7 +4,6 @@ module cifarm::wrap_ext_kiosik {
    // use kiosk::kiosk_lock_rule::Rule as LockRule;
    use sui::kiosk::{Kiosk, KioskOwnerCap};
    use sui::kiosk_extension;
-   use sui::transfer_policy::{TransferPolicy};
 
    // Wrap struct as Kiosk core
    public struct WrapExt has drop { }
@@ -41,25 +40,29 @@ module cifarm::wrap_ext_kiosik {
    public fun wrap_nft<T: key + store>(
       kiosk: &mut Kiosk,
       cap: &KioskOwnerCap,
-      transfer_policy: &TransferPolicy<T>,
       nft: T
    ) {
-      kiosk.lock(
+      kiosk.place(
          cap, 
-         transfer_policy, 
-         nft);
+         nft
+      );
    }
 
    // === Unwrap NFT ===
    public fun unwrap_nft<T: key + store>(
       kiosk: &mut Kiosk,
       cap: &KioskOwnerCap,
-      nft_id: ID
-   ): T {
-      kiosk.take<T>(
+      nft_id: ID,
+      previous_owner: address
+   ) {
+      let nft = kiosk.take<T>(
          cap,
          nft_id
-         )
+      );
       // transfer back to the owner
+      transfer::public_transfer(
+         nft, 
+         previous_owner
+      );
    }
 }
