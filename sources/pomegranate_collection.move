@@ -54,4 +54,9 @@ module cifarm::pomegranate_collection {
             ctx
         );
     }
+
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(POMEGRANATE_COLLECTION {}, ctx);
+    }
 }

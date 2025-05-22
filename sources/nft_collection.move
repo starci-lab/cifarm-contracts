@@ -3,9 +3,8 @@ module cifarm::nft_collection {
     // ===== Imports =====
     use std::string::{Self};
     use sui::url::{Url};
-    use cifarm::nft_treasury_cap::{NFTTreasuryCap};
+    use cifarm::nft_treasury_cap::{NFTTreasuryCap,Self};
     use sui::event::{Self};
-    use cifarm::nft_treasury_cap;
     use std::ascii::{Self};
     use sui::url::{Self};
     
@@ -68,6 +67,10 @@ module cifarm::nft_collection {
         // The uri of the collection
         uri: Url,
     }
+
+    // ===== Errors =====
+    // This error is emitted when trait key is not found
+    const ETraitKeyNotFound: u64 = 0;
 
     // ===== Public Functions =====
     // Create a collection
@@ -216,5 +219,32 @@ module cifarm::nft_collection {
     // This function to get the collection URI
     public fun get_collection_uri(self: &CollectionMetadata): Url {
         self.uri
+    }
+
+    // This function to get traits of the NFT
+    public fun get_traits_arr<OTW: drop>(self: &NFT<OTW>): vector<Trait> {
+        self.traits.traits
+    }
+
+    // Get key of the trait
+    public fun get_trait_key(self: &Trait): string::String {
+        self.key
+    }
+    // Get value of the trait
+    public fun get_trait_value(self: &Trait): string::String {
+        self.value
+    }
+
+    // Update trait value by key
+    public fun update_trait_value(
+        self: &mut Trait,
+        key: string::String,
+        value: string::String,
+    ) {
+        if (self.key == key) {
+            self.value = value;
+        } else {
+            assert!(false, ETraitKeyNotFound);
+        }
     }
 }

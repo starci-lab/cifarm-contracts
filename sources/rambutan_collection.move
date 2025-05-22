@@ -55,5 +55,8 @@ module cifarm::rambutan_collection {
         );
     }
 
-    
+    #[test_only]
+    public fun init_for_testing(ctx: &mut TxContext) {
+        init(RAMBUTAN_COLLECTION {}, ctx);
+    }
 }

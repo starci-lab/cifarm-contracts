@@ -5,7 +5,7 @@ module cifarm::dragon_fruit_collection {
     use std::string::{Self};
     use std::ascii::{Self};
     use sui::url::{Self, Url};
-    use cifarm::nft_collection::{Self, CollectionMetadata, NFT};
+    use cifarm::nft_collection::{Self};
     
     // ===== Structs =====
     // One-time witness struct
