@@ -18,6 +18,8 @@ Kiosk = { git = "https://github.com/MystenLabs/apps.git", subdir = "kiosk", rev 
 # override use `override = true`
 # Override = { local = "../conflicting/version", override = true }
 
+usdc = { git = "https://github.com/circlefin/stablecoin-sui.git", subdir = "packages/usdc", rev = "master" }
+
 [addresses]
 cifarm = "0x0"
 

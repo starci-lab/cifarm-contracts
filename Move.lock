@@ -2,14 +2,15 @@
 
 [move]
 version = 3
-manifest_digest = "6DEEDFF35C388B9C0F24994BFA32919817972D02547C506186747E39D037AF99"
-deps_digest = "397E6A9F7A624706DBDFEE056CE88391A15876868FD18A88504DA74EB458D697"
+manifest_digest = "EFDDF29827FFEACCFAB293E3FF4F37E3BD3F938DC6A932C873BB61B0C8B1F125"
+deps_digest = "52B406A7A21811BEF51751CF88DA0E76DAEFFEAC888D4F4060B1A72BBE7D8D35"
 dependencies = [
   { id = "Bridge", name = "Bridge" },
   { id = "Kiosk", name = "Kiosk" },
   { id = "MoveStdlib", name = "MoveStdlib" },
   { id = "Sui", name = "Sui" },
   { id = "SuiSystem", name = "SuiSystem" },
+  { id = "usdc", name = "usdc" },
 ]
 
 [[move.package]]
@@ -51,6 +52,33 @@ dependencies = [
   { id = "Sui", name = "Sui" },
 ]
 
+[[move.package]]
+id = "stablecoin"
+source = { git = "https://github.com/circlefin/stablecoin-sui.git", rev = "master", subdir = "packages/stablecoin" }
+
+dependencies = [
+  { id = "Sui", name = "Sui" },
+  { id = "sui_extensions", name = "sui_extensions" },
+]
+
+[[move.package]]
+id = "sui_extensions"
+source = { git = "https://github.com/circlefin/stablecoin-sui.git", rev = "master", subdir = "packages/sui_extensions" }
+
+dependencies = [
+  { id = "Sui", name = "Sui" },
+]
+
+[[move.package]]
+id = "usdc"
+source = { git = "https://github.com/circlefin/stablecoin-sui.git", rev = "master", subdir = "packages/usdc" }
+
+dependencies = [
+  { id = "Sui", name = "Sui" },
+  { id = "stablecoin", name = "stablecoin" },
+  { id = "sui_extensions", name = "sui_extensions" },
+]
+
 [move.toolchain-version]
 compiler-version = "1.49.1"
 edition = "2024.beta"
@@ -60,6 +88,6 @@ flavor = "sui"
 
 [env.testnet]
 chain-id = "4c78adac"
-original-published-id = "0x0000000000000000000000000000000000000000000000000000000000000000"
-latest-published-id = "0xe073470d88a1151e63c35143c7f3d434ce98214de9122d10a384155dc5cda2ec"
+original-published-id = "0x1831a1099d3e793dfa9709e508298e787940c4b2cb036b219b2a68bf22911521"
+latest-published-id = "0x1831a1099d3e793dfa9709e508298e787940c4b2cb036b219b2a68bf22911521"
 published-version = "1"

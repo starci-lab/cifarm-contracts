@@ -4,7 +4,7 @@ module cifarm::rambutan_collection {
     use cifarm::nft_treasury_cap::{Self};
     use std::string::{Self};
     use std::ascii::{Self};
-    use sui::url::{Self, Url};
+    use sui::url::{Self};
     use cifarm::nft_collection::{Self, NFT};
 
     // ===== Structs =====
@@ -37,18 +37,21 @@ module cifarm::rambutan_collection {
         self.update_name(name);
     }
     
-    public fun mint_nft(
+    public entry fun mint_nft(
         treasury_cap: &mut nft_treasury_cap::NFTTreasuryCap<RAMBUTAN_COLLECTION>,
         name: string::String,
-        uri: Url,
-        traits: nft_collection::Traits,
+        uri: string::String,
+        trait_keys: vector<string::String>, // Pass traits as vectors of strings or bytes
+        trait_values: vector<string::String>,
         recipient: address,
         ctx: &mut TxContext,
     ) {
+        let traits = nft_collection::make_traits(trait_keys, trait_values);
+        let uri_byte = string::as_bytes(&uri);
         nft_collection::mint_nft<RAMBUTAN_COLLECTION>(
             treasury_cap,
             name,
-            uri,
+            url::new_unsafe_from_bytes(*uri_byte),
             traits,
             recipient,
             ctx

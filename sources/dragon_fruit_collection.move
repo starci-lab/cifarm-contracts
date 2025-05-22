@@ -4,7 +4,7 @@ module cifarm::dragon_fruit_collection {
     use cifarm::nft_treasury_cap::{Self};
     use std::string::{Self};
     use std::ascii::{Self};
-    use sui::url::{Self, Url};
+    use sui::url::{Self};
     use cifarm::nft_collection::{Self};
     
     // ===== Structs =====
@@ -29,18 +29,21 @@ module cifarm::dragon_fruit_collection {
         transfer::public_transfer(treasury_cap, ctx.sender());
     }
 
-    public fun mint_nft<OTW: drop>(
-        treasury_cap: &mut nft_treasury_cap::NFTTreasuryCap<OTW>,
+    public entry fun mint_nft(
+        treasury_cap: &mut nft_treasury_cap::NFTTreasuryCap<DRAGON_FRUIT_COLLECTION>,
         name: string::String,
-        uri: Url,
-        traits: nft_collection::Traits,
+        uri: string::String,
+        trait_keys: vector<string::String>, // Pass traits as vectors of strings or bytes
+        trait_values: vector<string::String>,
         recipient: address,
         ctx: &mut TxContext,
     ) {
-        nft_collection::mint_nft<OTW>(
+        let traits = nft_collection::make_traits(trait_keys, trait_values);
+        let uri_byte = string::as_bytes(&uri);
+        nft_collection::mint_nft<DRAGON_FRUIT_COLLECTION>(
             treasury_cap,
             name,
-            uri,
+            url::new_unsafe_from_bytes(*uri_byte),
             traits,
             recipient,
             ctx

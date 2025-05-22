@@ -73,7 +73,7 @@ module cifarm::wrap_ext_kiosik {
             traits
          );
          // update the traits
-      nft.update_traits(traits_wrapper);
+      nft.update_traits_internal(traits_wrapper);
       // update the kiosk
       kiosk.place(
          cap, 
@@ -113,7 +113,7 @@ module cifarm::wrap_ext_kiosik {
       let traits_wrapper = nft_collection::create_traits(
          traits
       );
-      nft.update_traits(traits_wrapper);
+      nft.update_traits_internal(traits_wrapper);
       // transfer back to the owner
       transfer::public_transfer(
          nft, 

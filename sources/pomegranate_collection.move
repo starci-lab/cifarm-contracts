@@ -4,8 +4,8 @@ module cifarm::pomegranate_collection {
     use cifarm::nft_treasury_cap::{Self};
     use std::string::{Self};
     use std::ascii::{Self};
-    use sui::url::{Self, Url};
-    use cifarm::nft_collection::{Self, NFT};
+    use sui::url::{Self};
+    use cifarm::nft_collection::{Self};
 
     // ===== Structs =====
     // One-time witness struct
@@ -29,26 +29,21 @@ module cifarm::pomegranate_collection {
         transfer::public_transfer(treasury_cap, ctx.sender());
     }
 
-    // Update the name of the NFT
-    public fun update_name(
-        self: &mut NFT<POMEGRANATE_COLLECTION>,
-        name: string::String,
-    ) {
-        self.update_name(name);
-    }
-    
-    public fun mint_nft(
+    public entry fun mint_nft(
         treasury_cap: &mut nft_treasury_cap::NFTTreasuryCap<POMEGRANATE_COLLECTION>,
         name: string::String,
-        uri: Url,
-        traits: nft_collection::Traits,
+        uri: string::String,
+        trait_keys: vector<string::String>, // Pass traits as vectors of strings or bytes
+        trait_values: vector<string::String>,
         recipient: address,
         ctx: &mut TxContext,
     ) {
+        let traits = nft_collection::make_traits(trait_keys, trait_values);
+        let uri_byte = string::as_bytes(&uri);
         nft_collection::mint_nft<POMEGRANATE_COLLECTION>(
             treasury_cap,
             name,
-            uri,
+            url::new_unsafe_from_bytes(*uri_byte),
             traits,
             recipient,
             ctx

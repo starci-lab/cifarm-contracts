@@ -227,7 +227,6 @@ module cifarm::wrap_ext_kiosik_tests {
             initial_owner,
             ctx
         );
-    
         // Return the treasury cap to the initial owner
         transfer::public_transfer(treasury_cap, initial_owner);
     }

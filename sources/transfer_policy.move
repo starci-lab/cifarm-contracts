@@ -5,6 +5,7 @@ module cifarm::transfer_policy {
 
     public struct OTW has drop {}
 
+    #[test_only]
     public fun prepare<Asset: key + store>(ctx: &mut TxContext): (TransferPolicy<Asset>, TransferPolicyCap<Asset>) {
         let publisher = package::test_claim(OTW {}, ctx);
         let (policy, cap) = transfer_policy::new<Asset>(&publisher, ctx);
@@ -12,6 +13,7 @@ module cifarm::transfer_policy {
         (policy, cap)
     }
 
+    #[test_only]
     public fun wrapup<Asset: key + store>(
         policy: TransferPolicy<Asset>,
         cap: TransferPolicyCap<Asset>,
